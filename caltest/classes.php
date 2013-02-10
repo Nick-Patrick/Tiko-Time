@@ -8,19 +8,12 @@ class calendar {
 
 	function __construct() {
 		$this->curDay = date('d');
-		$this->curMon = date('m');
-		$this->curYear = date('y');
+		$this->curMon = date('n');
+		$this->curYear = date('Y');
 		$this->currentDate = date('d-m-y');
-	}
 
-	public function nextMonth() {
-		$this->curMon = $this->curMon + 1;
-		self::showCalendar();
-	}
-
-	public function prevMonth() {
-		$this->curMon = $this->curMon - 1;
-		self::showCalendar();
+		echo "<script> var month = " . $this->curMon . ";</script>";
+		echo "<script> var year = " . $this->curYear . ";</script>";
 	}
 
 	public function showCalendar() {
@@ -35,15 +28,15 @@ class calendar {
 			);
 
 		$months = array(
-			'01' => 'January', 
-			'02' => 'February', 
-			'03' => 'March', 
-			'04' => 'April', 
-			'05' => 'May', 
-			'06' => 'June',
-			'07' => 'July',
-			'08' => 'August',
-			'09' => 'September',
+			'1' => 'January', 
+			'2' => 'February', 
+			'3' => 'March', 
+			'4' => 'April', 
+			'5' => 'May', 
+			'6' => 'June',
+			'7' => 'July',
+			'8' => 'August',
+			'9' => 'September',
 			'10' => 'October',
 			'11' => 'November',
 			'12' => 'December'
@@ -59,9 +52,9 @@ class calendar {
 
 		$daysinprevmonth = cal_days_in_month(CAL_GREGORIAN, $monthPrevious, $this->curYear);
 		
-		$output = "<section><form action='index.php' method='post'><input type='submit' name='prev' value='Previous'><input type='submit' name='next' value='Next'></form></section>";
+		//$output = "<section><form action='index.php' method='post'><input type='submit' name='prev' value='Previous'><input type='submit' name='next' value='Next'></form></section>";
 		
-		$output .= "<h1>" . $months[$this->curMon] . "</h1>";
+		$output = "<h1>" . $months[$this->curMon] . "</h1>";
 
 		$output .= "<table><thead>";
 		foreach ($days as $day) {
