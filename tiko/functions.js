@@ -7,6 +7,5 @@ $(document).ready(function() {
 	/*END OPTION HEADER JS*/
 
 
-	
 	/*END CALENDER FUNCTION*/
 });

@@ -54,9 +54,39 @@ class calendar {
 		
 		//$output = "<section><form action='index.php' method='post'><input type='submit' name='prev' value='Previous'><input type='submit' name='next' value='Next'></form></section>";
 		
-		$output = "<h1>" . $months[$this->curMon] . "</h1>";
+		$output = "<section class='calendar-top'>";
+		$output .= "<h2>" . $months[$this->curMon] . "</h2>";
+		/*$output .= '<section class="calendar-options">
+		<form action="index.php" method="POST">
+			<select name="month" id="mn">
+				<option value="1">Jan</option>
+				<option value="2">Feb</option>
+				<option value="3">Mar</option>
+				<option value="4">Apr</option>
+				<option value="5">May</option>
+				<option value="6">Jun</option>
+				<option value="7">Jul</option>
+				<option value="8">Aug</option>
+				<option value="9">sep</option>
+				<option value="10">Oct</option>
+				<option value="11">Nov</option>
+				<option value="12">Dec</option>
+			</select>
+			<select name="year" id="yr">
+				<option value="2012">2012</option>
+				<option value="2013" selected="selected">2013</option>
+				<option value="2014">2014</option>
+				<option value="2015">2015</option>
+				<option value="2016">2016</option>
+			</select>
+		</form>
 
-		$output .= "<table class='calender-tab'><thead>";
+
+		<section><button id="p"><</button><button id="n">></button></section>
+	</section>';*/
+		$output .= "</section><section class='calendar-main'>";
+
+		$output .= "<table class='calendar-tab'><thead>";
 		foreach ($days as $day) {
 			$output .= "<th>" . $day . "</th>";
 		}
@@ -91,17 +121,19 @@ class calendar {
 
 			$masterCounter++;	
 			
-			$output .= "<td><a class='cala' href='" . $daycount . "'>" . $daycount . "</td>";
-
+			$output .= "<td><button onClick='popup(" . $daycount . ", " . $this->curMon . ", " . $this->curYear . ")'>" . $daycount . "</button></td>";
+			
 		}
-
-		if ($masterCounter <= 7) {
-			for ($i = 1; $i < $masterCounter; $i++) {
+		if ($masterCounter < 7) {
+			$days_left = 7 - $masterCounter;
+			for ($i = 0; $i < $days_left; $i++) {
 				$output .= "<td></td>";
 			}
 		}
 
-		$output .= "</tr></tbody></table>";
+		$output .= "</tr></tbody></table></section>";
+		$output .= "<script src='pop_up.js'></script>";
+
 
 		echo $output; 
 	}

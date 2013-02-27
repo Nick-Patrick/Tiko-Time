@@ -4,6 +4,7 @@
 
 	<link href="reset.css" rel="stylesheet">
 	<link href="main_styles.css" rel="stylesheet">
+	<link href="pop_up.css" rel="stylesheet">
 
 	<script type="text/javascript" src="jQuery.js"></script>
 
