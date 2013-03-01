@@ -55,7 +55,7 @@ class calendar {
 		//$output = "<section><form action='index.php' method='post'><input type='submit' name='prev' value='Previous'><input type='submit' name='next' value='Next'></form></section>";
 		
 		$output = "<section class='calendar-top'>";
-		$output .= "<h2>" . $months[$this->curMon] . "</h2>";
+		$output .= "<h2>" . $months[$this->curMon] . " " . $this->curYear . "</h2>";
 		/*$output .= '<section class="calendar-options">
 		<form action="index.php" method="POST">
 			<select name="month" id="mn">
@@ -132,7 +132,7 @@ class calendar {
 		}
 
 		$output .= "</tr></tbody></table></section>";
-		$output .= "<script src='pop_up.js'></script>";
+		$output .= "<script src='includes/js/pop_up.js'></script>";
 
 
 		echo $output; 

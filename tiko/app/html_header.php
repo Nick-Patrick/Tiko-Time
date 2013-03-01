@@ -2,11 +2,12 @@
 <head>
 	<?php require("header.php") ?>
 
-	<link href="reset.css" rel="stylesheet">
-	<link href="main_styles.css" rel="stylesheet">
-	<link href="pop_up.css" rel="stylesheet">
+	<link href="includes/css/reset.css" rel="stylesheet">
+	<link href="includes/css/main_styles.css" rel="stylesheet">
+	<link href="includes/css/headings.css" rel="stylesheet">
+	<link href="includes/css/pop_up.css" rel="stylesheet">
 
-	<script type="text/javascript" src="jQuery.js"></script>
+	<script type="text/javascript" src="includes/js/jQuery.js"></script>
 
 
 	<title></title>

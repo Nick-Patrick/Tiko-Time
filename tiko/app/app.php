@@ -29,7 +29,7 @@
 	</section>
 	<section id="calendar"></section>
 <?php
-	include_once "classes.php";
+	include_once "includes/scripts/classes.php";
 
 	$cal = new calendar()
 
@@ -43,7 +43,7 @@ $(document).ready(function() {
 
     var valueo = $.ajax({
     	type: "POST",
-        url: "calendar.php",
+        url: "includes/scripts/calendar.php",
         data: "m="+m+"&y="+y ,
         async: false
     }).responseText;
@@ -59,7 +59,7 @@ $(document).ready(function() {
 		console.log(y);
     	var value = $.ajax({
         type: "POST",
-        url: "calendar.php",
+        url: "includes/scripts/calendar.php",
         data: "m="+m+"&y="+y ,
         async: false
     	}).responseText;
@@ -75,7 +75,7 @@ $(document).ready(function() {
 		console.log(y);
     	var value = $.ajax({
         type: "POST",
-        url: "calendar.php",
+        url: "includes/scripts/calendar.php",
         data: "m="+m+"&y="+y ,
         async: false
     	}).responseText;
@@ -87,7 +87,7 @@ $(document).ready(function() {
 		console.log(y);
     	var value = $.ajax({
         type: "POST",
-        url: "calendar.php",
+        url: "includes/scripts/calendar.php",
         data: "m="+m+"&y="+y ,
         async: false
     	}).responseText;
@@ -99,7 +99,7 @@ $(document).ready(function() {
 		console.log(y);
     	var value = $.ajax({
         type: "POST",
-        url: "calendar.php",
+        url: "includes/scripts/calendar.php",
         data: "m="+m+"&y="+y ,
         async: false
     	}).responseText;
