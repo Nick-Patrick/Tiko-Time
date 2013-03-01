@@ -14,9 +14,9 @@
 </head>
 <body>
 	<header>
-		<a href=""><img src="" width="200" height="50" alt=""></a>
+		<a href=""><img src="includes/images/logo.png" alt=""></a>
 		<section class="options_wrapper">
-			<a href="" class="options_link">Options</a>
+			<a href="" class="options_link"><img width="35" alt="" src="includes/images/icons/settings.png"></a>
 			<ul class="options">
 				<li><a href="">option 1</a></li>
 				<li><a href="">option 2</a></li>

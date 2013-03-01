@@ -1,5 +1,9 @@
+@font-face { font-family: Asap; src: url('../../../includes/fonts/Asap-Regular.otf'); } 
+@font-face { font-family: Asap; font-weight: bold; src: url('../../../includes/fonts/Asap-Bold.otf'); }
+@font-face { font-family: Asap; font-style: italic; src: url('../../../includes/fonts/Asap-Italic.otf'); }
+
 body {
-	font-family: arial;
+	font-family: Asap, arial;
 	background-color: #e9e9e9;
 }
 
@@ -15,16 +19,22 @@ header {
 	display: block;
 	height: 50px;
 	background-color: #0787c9;
+	overflow:hidden;
 }
 
 header a {
 	color:#fff;
 }
 
+header img {
+	margin-left: 1%;
+}
+
 /* NAV STYLES */
 .nav_wrapper {
 	background-color: #fff;
-	width: 200px;
+	width: 15%;
+	min-width: 150px;
 	height: 100%;
 	float: left;
 	overflow: auto;
@@ -35,8 +45,10 @@ nav {
 }
 
 nav a {
-	padding: 20px;
 	display: block;
+	padding-left: 10%;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 nav a:hover {
@@ -50,13 +62,30 @@ nav a:hover {
 	position: relative;
 	float:right;
 	display:block;
+	margin-right: 1%;
 }
 
 .options_link {
-	padding: 10px;
-	margin: 7px;
-	width: 150px;
+	margin: 7px 0px 7px 5px;
 	display:block;
+
+	-webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+     
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+     
+    overflow:hidden;
+}
+
+.options_link:hover {
+    -webkit-transform:rotate(90deg);
+    -moz-transform:rotate(90deg);
+    -o-transform:rotate(90deg);
 }
 
 .options {
@@ -68,7 +97,7 @@ nav a:hover {
 
 /* APP STYLES */
 .app_wrapper {
-	margin-left: 200px;
+	margin-left: 15%;
 	display: block;
 	padding: 20px;
 	overflow: hidden;
@@ -95,29 +124,81 @@ nav a:hover {
 
 .calendar-options {
 	float:right;
+	display: block;
+	overflow: hidden;
+}
+
+.calendar-options button {
+	font-family: Asap, arial;
+	font-size: 1.1em;
+	padding: 8px 10px 10px 10px;
+	margin:5px;
+	border:none;
+	background-color: #0786C9;
+	color: #fff;
+	display:inline-block;
+}
+
+.calendar-options select {
+	font-family: Asap, arial;
+	font-size: 1em;
+	display: inline;
+	margin:5px 1px 5px 5px;
+	border:none;
+	color:#fff;
+	border-radius: 0px;
+	-webkit-appearance: none;
+	padding: 10px 40px 11px 10px;
+	background: url('../images/icons/drop-down.png') no-repeat 90% #0786C9;
+}
+
+.calendar-options select:focus {
+	outline: 2px #fff solid;
+}
+
+.calendar-options-buttons {
+	float: right;
+}
+
+.calendar-options-drops {
+	float: right;
+	margin-right: 30px;
 }
 
 .calendar-tab thead th {
-	height: 30px;
+	height: 80px;
 	vertical-align: middle;
-	border: 2px solid #fefefe;
-	background-color: #bfbfbf;
+	background-color: #0786C9;
+	color: #fff;
+	font-style: italic;
+	text-align: right;
+	padding-right: 10px;
+	border: 10px solid #e9e9e9;
+}
+
+.calendar-tab tr {
+	border: none;
 }
 
 .calendar-tab td {
-	background-color: #d6d6d6;
-	border: solid 2px #fefefe;
+	background-color: #fff;
+	border: none;
+	border: 10px solid #e9e9e9;
 }
 
 .calendar-tab button {
 	width: 100%;
-	height: 30px;
-	background-color: #ffffff;
-	border: #e9e9e9 solid 2px;
+	font-size: 2em;
+	background-color: #fff;
+	border: none;
+	text-align: left;
+	color: #0786C9;
+	padding: 10px;
+	margin: 0px;
 }
 
 .calendar-tab button:hover {
-	background-color: #d6d6d6;
+	color: #444;
 }
 
 

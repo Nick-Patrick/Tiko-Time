@@ -121,7 +121,7 @@ class calendar {
 
 			$masterCounter++;	
 			
-			$output .= "<td><button onClick='popup(" . $daycount . ", " . $this->curMon . ", " . $this->curYear . ")'>" . $daycount . "</button></td>";
+			$output .= "<td><button onClick='popup(" . $daycount . ", " . $this->curMon . ", " . $this->curYear . ")'>" . $daycount . "<span></span></button></td>";
 			
 		}
 		if ($masterCounter < 7) {

@@ -1,6 +1,9 @@
 <section class="app_wrapper">
 <section class="calendar-options">
-		<form action="index.php" method="POST">
+
+		<section class="calendar-options-buttons"><button id="p"><</button><button id="n">></button></section>
+
+		<section class="calendar-options-drops">
 			<select name="month" id="mn">
 				<option value="1">Jan</option>
 				<option value="2">Feb</option>
@@ -22,10 +25,8 @@
 				<option value="2015">2015</option>
 				<option value="2016">2016</option>
 			</select>
-		</form>
+		</section>
 
-
-		<section><button id="p"><</button><button id="n">></button></section>
 	</section>
 	<section id="calendar"></section>
 <?php
