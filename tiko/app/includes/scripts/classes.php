@@ -100,12 +100,14 @@ class calendar {
 		$startDay = date('N', $dynamicDate);
 		//$startDay--;
 		
-		if ($startDay != 00) {
+		if ($startDay != 0) {
 				$startDay;
 				$blank = $startDay;
-				for ($i = 0; $i < $blank; $i++) {
-					$output .= "<td></td>";
-					$masterCounter++;
+				if ($blank != 7) {
+					for ($i = 0; $i < $blank; $i++) {
+						$output .= "<td></td>";
+						$masterCounter++;
+					}
 				}
 			}
 
@@ -121,8 +123,8 @@ class calendar {
 
 			$masterCounter++;	
 			
-			$output .= "<td><button onClick='popup(" . $daycount . ", " . $this->curMon . ", " . $this->curYear . ")'>" . $daycount . "<span></span></button></td>";
-			
+			$output .= "<td><button class='calendar-day' rel='" . $this->curMon . "," . $this->curYear . "'>" . $daycount . "<span></span></button></td>";
+			//onClick='popup(" . $daycount . ", " . $this->curMon . ", " . $this->curYear . ")'
 		}
 		if ($masterCounter < 7) {
 			$days_left = 7 - $masterCounter;

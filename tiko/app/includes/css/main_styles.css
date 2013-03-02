@@ -36,6 +36,7 @@ header img {
 	width: 15%;
 	min-width: 150px;
 	height: 100%;
+	display: block;
 	float: left;
 	overflow: auto;
 }
@@ -91,13 +92,26 @@ nav a:hover {
 .options {
 	position: absolute;
 	display: none;
-	background-color: #d6d6d6;
+	margin-right: 7px;
+	background-color: #fff;
+	z-index: 5;
+	color: #444;
+	right: 7px;
+	padding: 5px;
+}
+
+.options a {
+	padding: 3px 6px;
+	display: block;
+}
+
+.options a:hover {
+	color:#0786C9;
 }
 /* END OPTIONS STYLES */
 
 /* APP STYLES */
 .app_wrapper {
-	margin-left: 15%;
 	display: block;
 	padding: 20px;
 	overflow: hidden;
@@ -126,6 +140,7 @@ nav a:hover {
 	float:right;
 	display: block;
 	overflow: hidden;
+	margin-right: 5px;
 }
 
 .calendar-options button {

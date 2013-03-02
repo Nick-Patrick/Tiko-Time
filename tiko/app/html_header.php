@@ -17,12 +17,12 @@
 		<a href=""><img src="includes/images/logo.png" alt=""></a>
 		<section class="options_wrapper">
 			<a href="" class="options_link"><img width="35" alt="" src="includes/images/icons/settings.png"></a>
-			<ul class="options">
-				<li><a href="">option 1</a></li>
-				<li><a href="">option 2</a></li>
-				<li><a href="">option 3</a></li>
-				<li><a href="">option 4</a></li>
-			</ul>
 		</section>
 	</header>
+	<section class="main-wrapper">
+		<ul class="options">
+			<li><a href="">My Account</a></li>
+			<li><a href="">Settings</a></li>
+			<li><a href="">Log Out</a></li>
+		</ul>
 
