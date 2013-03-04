@@ -133,7 +133,7 @@ nav a:hover {
 }
 
 .calendar-top h2 {
-	float:left;
+	margin: 10px;
 }
 
 .calendar-options {
