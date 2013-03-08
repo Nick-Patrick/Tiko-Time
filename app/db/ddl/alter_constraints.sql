@@ -143,3 +143,140 @@ ALTER TABLE `user_message`
     CHANGE COLUMN `user_message_id` `user_message_id` INT(5) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 ###################
+
+
+
+
+
+###################
+
+#Alter foreign keys to unsigned and not null when required
+
+## Comments ##
+
+ALTER TABLE comments
+    CHANGE COLUMN user_id user_id INT(5) UNSIGNED NOT NULL;
+
+ALTER TABLE comments
+    CHANGE COLUMN event_id event_id INT(5) UNSIGNED;
+
+ALTER TABLE comments
+    CHANGE COLUMN comment_response_id comment_response_id INT(5) UNSIGNED;
+
+## Events Custom ##
+
+ALTER TABLE events_custom
+	CHANGE COLUMN event_template_id event_template_id INT(5) UNSIGNED NOT NULL;
+
+## Event Client ##
+
+ALTER TABLE event_client
+	CHANGE COLUMN event_id event_id INT(5) UNSIGNED NOT NULL;
+
+ALTER TABLE event_client
+	CHANGE COLUMN client_id client_id INT(5) UNSIGNED;
+
+## EVENT TEMPLATES ##
+
+ALTER TABLE event_templates
+	CHANGE COLUMN user_id user_id INT(5) UNSIGNED NOT NULL;
+
+## GROUPS ##
+
+ALTER TABLE groups
+	CHANGE COLUMN admin_id admin_id INT(5) UNSIGNED;
+
+## GROUP USER ##
+
+ALTER TABLE group_user
+	CHANGE COLUMN group_id group_id INT(5) UNSIGNED NOT NULL;
+
+ALTER TABLE group_user
+	CHANGE COLUMN user_id user_id INT(5) UNSIGNED NOT NULL;
+
+ALTER TABLE group_user
+	CHANGE COLUMN account_type account_type INT(5) UNSIGNED;
+
+## NOTIFICATIONS ##
+
+ALTER TABLE notifications
+	CHANGE COLUMN user_id user_id INT(5) UNSIGNED NOT NULL;
+
+ALTER TABLE notifications
+	CHANGE COLUMN event_id event_id INT(5) UNSIGNED;
+
+ALTER TABLE user_message
+	CHANGE COLUMN message_id message_id INT(5) UNSIGNED NOT NULL;
+
+ALTER TABLE user_message
+	CHANGE COLUMN user_id user_id INT(5) UNSIGNED;
+
+###################
+
+#Alter constraints to add foreign keys
+
+## Comments ##
+
+ALTER TABLE comments
+   ADD CONSTRAINT fk_comments_user_id
+   FOREIGN KEY (user_id)
+   REFERENCES users(user_id);
+
+ALTER TABLE comments
+	ADD CONSTRAINT fk_comments_event_id
+	FOREIGN KEY (event_id)
+	REFERENCES events(event_id);
+
+## Events Custom ##
+
+ALTER TABLE events_custom
+	ADD CONSTRAINT fk_events_event_template_id
+	FOREIGN KEY (event_template_id)
+	REFERENCES event_templates (event_template_id);
+
+## Groups ##
+
+ALTER TABLE groups
+	ADD CONSTRAINT fk_groups_admin_id
+	FOREIGN KEY (admin_id)
+	REFERENCES users(user_id);
+
+## Group User ##
+
+ALTER TABLE group_user
+	ADD CONSTRAINT fk_group_user_group_id
+	FOREIGN KEY (group_id)
+	REFERENCES groups(group_id);
+
+ALTER TABLE group_user
+	ADD CONSTRAINT fk_group_user_user_id
+	FOREIGN KEY (user_id)
+	REFERENCES users(user_id);
+
+## Notifications ##
+
+ALTER TABLE notifications
+	ADD CONSTRAINT fk_notifications_user_id
+	FOREIGN KEY (user_id)
+	REFERENCES users(user_id);
+
+ALTER TABLE notifications
+	ADD CONSTRAINT fk_notifications_event_id
+	FOREIGN KEY (event_id)
+	REFERENCES events(event_id);
+
+## User Message ##
+
+ALTER TABLE user_message
+	ADD CONSTRAINT fk_user_message_message_id
+	FOREIGN KEY (message_id)
+	REFERENCES messages(message_id);
+
+ALTER TABLE user_message
+	ADD CONSTRAINT fk_user_message_user_id
+	FOREIGN KEY (user_id)
+	REFERENCES users(user_id);
+
+
+
+###################
