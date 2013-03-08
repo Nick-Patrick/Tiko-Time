@@ -60,7 +60,12 @@ create table IF NOT EXISTS events
 	time_end datetime,
 	type varchar(50),
 	status varchar(1),
-	location varchar(40)
+	location varchar(40),
+	custom1 varchar(50),
+	custom2 varchar(50),
+	custom3 varchar(50),
+	custom4 varchar(50),
+	custom5 varchar(50)
 );
 
 create table IF NOT EXISTS group_user
