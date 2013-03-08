@@ -140,6 +140,19 @@ class calendar {
 		echo $output; 
 	}
 
+	public function getEventsByDay($date) {
+		$result = mysql_query("SELECT * FROM events WHERE event_date = 'mysql_real_escape_string($date)'");
+		if (mysql_num_rows($result) > 0) {
+			$output = "";
+			while ($row = mysql_fetch_array($result)) {
+				$output .= "<li></li>";
+			}
+		} else {
+			$output = "Get Busy";
+		}
+		return $output;
+	}
+
 	public function getCurDay() {
         return $this->curDay;
     }
@@ -184,22 +197,22 @@ class client {
 	private $disabled; //varchar(1),
 
 	function __construct($client_id, $lead_id, $company_name, $title, $first_name, $last_name, $address1, $address2, $address3, $town, $county, $postcode, $country, $phone, $email, $disabled) {
-		$this->client_id = mysql_escape_string($client_id);
-		$this->lead_id = mysql_escape_string($lead_id);
-		$this->company_name = mysql_escape_string($company_name);
-		$this->title = mysql_escape_string($title);
-		$this->first_name = mysql_escape_string($first_name);
-		$this->last_name = mysql_escape_string($last_namg);
-		$this->address1 = mysql_escape_string($address1);
-		$this->address2 = mysql_escape_string($address2);
-		$this->address3 = mysql_escape_string($address3);
-		$this->town = mysql_escape_string($town);
-		$this->county = mysql_escape_string($county);
-		$this->postcode = mysql_escape_string($postcod);
-		$this->country = mysql_escape_string($country);
-		$this->phone = mysql_escape_string($phone);
-		$this->email = mysql_escape_string($email);
-		$this->disabled = mysql_escape_string($disabled);
+		$this->client_id = mysql_real_escape_string($client_id);
+		$this->lead_id = mysql_real_escape_string($lead_id);
+		$this->company_name = mysql_real_escape_string($company_name);
+		$this->title = mysql_real_escape_string($title);
+		$this->first_name = mysql_real_escape_string($first_name);
+		$this->last_name = mysql_real_escape_string($last_namg);
+		$this->address1 = mysql_real_escape_string($address1);
+		$this->address2 = mysql_real_escape_string($address2);
+		$this->address3 = mysql_real_escape_string($address3);
+		$this->town = mysql_real_escape_string($town);
+		$this->county = mysql_real_escape_string($county);
+		$this->postcode = mysql_real_escape_string($postcod);
+		$this->country = mysql_real_escape_string($country);
+		$this->phone = mysql_real_escape_string($phone);
+		$this->email = mysql_real_escape_string($email);
+		$this->disabled = mysql_real_escape_string($disabled);
 	}
 
 	public function insert() {
@@ -221,7 +234,7 @@ class client {
 	}
 
     public function setClient_id($x) {
-        $this->client_id = mysql_escape_string($x);
+        $this->client_id = mysql_real_escape_string($x);
     }
 
 	public function getClient_id() {
@@ -229,7 +242,7 @@ class client {
     }
 
     public function setLead_id($x) {
-        $this->lead_id = mysql_escape_string($x);
+        $this->lead_id = mysql_real_escape_string($x);
     }
 
 	public function getLead_id() {
@@ -237,7 +250,7 @@ class client {
     }
 
     public function setCompany_name($x) {
-        $this->company_name = mysql_escape_string($x);
+        $this->company_name = mysql_real_escape_string($x);
     }
 
 	public function getCompany_name() {
@@ -245,7 +258,7 @@ class client {
     }
 
     public function setTitle($x) {
-        $this->title = mysql_escape_string($x);
+        $this->title = mysql_real_escape_string($x);
     }
 
 	public function getTitle() {
@@ -253,7 +266,7 @@ class client {
     }
 
     public function setFirst_name($x) {
-        $this->first_name = mysql_escape_string($x);
+        $this->first_name = mysql_real_escape_string($x);
     }
 
 	public function getFirst_name() {
@@ -261,7 +274,7 @@ class client {
     }
 
     public function setLast_name($x) {
-        $this->last_name = mysql_escape_string($x);
+        $this->last_name = mysql_real_escape_string($x);
     }
 
 	public function getLast_name() {
@@ -269,7 +282,7 @@ class client {
     }
 
     public function setAddress1($x) {
-        $this->address1 = mysql_escape_string($x);
+        $this->address1 = mysql_real_escape_string($x);
     }
 
 	public function getAddress1() {
@@ -277,7 +290,7 @@ class client {
     }
 
     public function setAddress2($x) {
-        $this->address2 = mysql_escape_string($x);
+        $this->address2 = mysql_real_escape_string($x);
     }
 
 	public function getAddress2() {
@@ -285,7 +298,7 @@ class client {
     }
 
     public function setAddress3($x) {
-        $this->address3 = mysql_escape_string($x);
+        $this->address3 = mysql_real_escape_string($x);
     }
 
 	public function getAddress3() {
@@ -293,7 +306,7 @@ class client {
     }
 
     public function setTown($x) {
-        $this->town = mysql_escape_string($x);
+        $this->town = mysql_real_escape_string($x);
     }
 
 	public function getTown() {
@@ -301,7 +314,7 @@ class client {
     }
 
     public function setCounty($x) {
-        $this->county = mysql_escape_string($x);
+        $this->county = mysql_real_escape_string($x);
     }
 
 	public function getCounty() {
@@ -309,7 +322,7 @@ class client {
     }
 
     public function setPostcode($x) {
-        $this->postcode = mysql_escape_string($x);
+        $this->postcode = mysql_real_escape_string($x);
     }
 
 	public function getPostcode() {
@@ -317,7 +330,7 @@ class client {
     }
 
     public function setCountry($x) {
-        $this->country = mysql_escape_string($x);
+        $this->country = mysql_real_escape_string($x);
     }
 
 	public function getCountry() {
@@ -325,7 +338,7 @@ class client {
     }
 
     public function setPhone($x) {
-        $this->phone = mysql_escape_string($x);
+        $this->phone = mysql_real_escape_string($x);
     }
 
 	public function getPhone() {
@@ -333,7 +346,7 @@ class client {
     }
 
     public function setEmail($x) {
-        $this->email = mysql_escape_string($x);
+        $this->email = mysql_real_escape_string($x);
     }
 
 	public function getEmail() {
@@ -341,7 +354,7 @@ class client {
     }
 
     public function setDisabled($x) {
-        $this->disabled = mysql_escape_string($x);
+        $this->disabled = mysql_real_escape_string($x);
     }
 
 	public function getDisabled() {
@@ -350,26 +363,26 @@ class client {
 }
 
 class event {
-	private $event_id //int(5),
-	private $name //varchar(50),
-	private $description //varchar(250),
-	private $time_start //datetime,
-	private $time_end //datetime,
-	private $event_date //date,
-	private $type //varchar(50),
-	private $status //varchar(1),
-	private $location //varchar(40)
+	private $event_id; //int(5),
+	private $name; //varchar(50),
+	private $description; //varchar(250),
+	private $time_start; //datetime,
+	private $time_end; //datetime,
+	private $event_date; //date,
+	private $type; //varchar(50),
+	private $status; //varchar(1),
+	private $location; //varchar(40)
 
 	function __construct($event_id, $name, $description, $time_start, $time_end, $event_date, $type, $status, $location) {
-		$this->event_id = mysql_escape_string($event_id);
-		$this->name = mysql_escape_string($name);
-		$this->description = mysql_escape_string($description);
-		$this->time_start = mysql_escape_string($time_start);
-		$this->time_end = mysql_escape_string($time_end);
-		$this->event_date = mysql_escape_string($event_date);
-		$this->type = mysql_escape_string($type);
-		$this->status = mysql_escape_string($status);
-		$this->location = mysql_escape_string($location);
+		$this->event_id = mysql_real_escape_string($event_id);
+		$this->name = mysql_real_escape_string($name);
+		$this->description = mysql_real_escape_string($description);
+		$this->time_start = mysql_real_escape_string($time_start);
+		$this->time_end = mysql_real_escape_string($time_end);
+		$this->event_date = mysql_real_escape_string($event_date);
+		$this->type = mysql_real_escape_string($type);
+		$this->status = mysql_real_escape_string($status);
+		$this->location = mysql_real_escape_string($location);
 	}
 
 	public function insert() {
@@ -377,8 +390,16 @@ class event {
 		return $result;
 	}
 
+	public function getEventDetails() {
+		$result = mysql_query("SELECT * FROM events WHERE event_id = '$this->event_id'");
+		if (mysql_num_rows($result) > 0) {
+			$output = "";
+			
+		}
+	}
+
     public function setEvent_id($x) {
-        $this->event_id = mysql_escape_string($x);
+        $this->event_id = mysql_real_escape_string($x);
     }
 
 	public function getEvent_id() {
@@ -386,7 +407,7 @@ class event {
     }
 
     public function setName($x) {
-        $this->name = mysql_escape_string($x);
+        $this->name = mysql_real_escape_string($x);
     }
 
 	public function getName() {
@@ -394,7 +415,7 @@ class event {
     }
 
     public function setDescription($x) {
-        $this->description = mysql_escape_string($x);
+        $this->description = mysql_real_escape_string($x);
     }
 
 	public function getDescription() {
@@ -402,7 +423,7 @@ class event {
     }
 
     public function setTime_start($x) {
-        $this->time_start = mysql_escape_string($x);
+        $this->time_start = mysql_real_escape_string($x);
     }
 
 	public function getTime_start() {
@@ -410,7 +431,7 @@ class event {
     }
 
     public function setTime_end($x) {
-        $this->time_end = mysql_escape_string($x);
+        $this->time_end = mysql_real_escape_string($x);
     }
 
 	public function getTime_end() {
@@ -418,7 +439,7 @@ class event {
     }
 
     public function setEvent_date($x) {
-        $this->event_date = mysql_escape_string($x);
+        $this->event_date = mysql_real_escape_string($x);
     }
 
 	public function getEvent_date() {
@@ -426,7 +447,7 @@ class event {
     }
 
     public function setType($x) {
-        $this->type = mysql_escape_string($x);
+        $this->type = mysql_real_escape_string($x);
     }
 
 	public function getType() {
@@ -434,7 +455,7 @@ class event {
     }
 
     public function setStatus($x) {
-        $this->status = mysql_escape_string($x);
+        $this->status = mysql_real_escape_string($x);
     }
 
 	public function getStatus() {
@@ -442,7 +463,7 @@ class event {
     }
 
     public function setLocation($x) {
-        $this->location = mysql_escape_string($x);
+        $this->location = mysql_real_escape_string($x);
     }
 
 	public function getLocation() {
@@ -469,7 +490,7 @@ mobile?
 +	disabled varchar(1)*/
 	private $user_id; //int(5),
 	private $email; //varchar(80),
-	private $userpass //varchar(300),
+	private $userpass; //varchar(300),
 	private $title; //varchar(5),
 	private $first_name; //varchar(30),
 	private $last_name; //varchar(30),
@@ -484,21 +505,21 @@ mobile?
 	private $disabled; //varchar(1),
 
 	function __construct($user_id, $email, $title, $userpass, $first_name, $last_name, $address1, $address2, $address3, $town, $county, $postcode, $country, $phone, $disabled) {
-		$this->user_id = mysql_escape_string($user_id);
-		$this->email = mysql_escape_string($email);
-		$this->title = mysql_escape_string($title);
-		$this->userpass = mysql_escape_string($userpass);
-		$this->first_name = mysql_escape_string($first_name);
-		$this->last_name = mysql_escape_string($last_namg);
-		$this->address1 = mysql_escape_string($address1);
-		$this->address2 = mysql_escape_string($address2);
-		$this->address3 = mysql_escape_string($address3);
-		$this->town = mysql_escape_string($town);
-		$this->county = mysql_escape_string($county);
-		$this->postcode = mysql_escape_string($postcod);
-		$this->country = mysql_escape_string($country);
-		$this->phone = mysql_escape_string($phone);
-		$this->disabled = mysql_escape_string($disabled);
+		$this->user_id = mysql_real_escape_string($user_id);
+		$this->email = mysql_real_escape_string($email);
+		$this->title = mysql_real_escape_string($title);
+		$this->userpass = mysql_real_escape_string($userpass);
+		$this->first_name = mysql_real_escape_string($first_name);
+		$this->last_name = mysql_real_escape_string($last_namg);
+		$this->address1 = mysql_real_escape_string($address1);
+		$this->address2 = mysql_real_escape_string($address2);
+		$this->address3 = mysql_real_escape_string($address3);
+		$this->town = mysql_real_escape_string($town);
+		$this->county = mysql_real_escape_string($county);
+		$this->postcode = mysql_real_escape_string($postcod);
+		$this->country = mysql_real_escape_string($country);
+		$this->phone = mysql_real_escape_string($phone);
+		$this->disabled = mysql_real_escape_string($disabled);
 	}
 
 	public function insert() {
@@ -520,7 +541,7 @@ mobile?
 	}
 
     public function setUser_id($x) {
-        $this->user_id = mysql_escape_string($x);
+        $this->user_id = mysql_real_escape_string($x);
     }
 
 	public function getUser_id() {
@@ -528,7 +549,7 @@ mobile?
     }
 
     public function setEmail($x) {
-        $this->email = mysql_escape_string($x);
+        $this->email = mysql_real_escape_string($x);
     }
 
 	public function getEmail() {
@@ -536,7 +557,7 @@ mobile?
     }
 
     public function setUserpass($x) {
-        $this->userpass = mysql_escape_string($x);
+        $this->userpass = mysql_real_escape_string($x);
     }
 
 	public function getUserpass() {
@@ -544,7 +565,7 @@ mobile?
     }
 
     public function setTitle($x) {
-        $this->title = mysql_escape_string($x);
+        $this->title = mysql_real_escape_string($x);
     }
 
 	public function getTitle() {
@@ -552,7 +573,7 @@ mobile?
     }
 
     public function setFirst_name($x) {
-        $this->first_name = mysql_escape_string($x);
+        $this->first_name = mysql_real_escape_string($x);
     }
 
 	public function getFirst_name() {
@@ -560,7 +581,7 @@ mobile?
     }
 
     public function setLast_name($x) {
-        $this->last_name = mysql_escape_string($x);
+        $this->last_name = mysql_real_escape_string($x);
     }
 
 	public function getLast_name() {
@@ -568,7 +589,7 @@ mobile?
     }
 
     public function setAddress1($x) {
-        $this->address1 = mysql_escape_string($x);
+        $this->address1 = mysql_real_escape_string($x);
     }
 
 	public function getAddress1() {
@@ -576,7 +597,7 @@ mobile?
     }
 
     public function setAddress2($x) {
-        $this->address2 = mysql_escape_string($x);
+        $this->address2 = mysql_real_escape_string($x);
     }
 
 	public function getAddress2() {
@@ -584,7 +605,7 @@ mobile?
     }
 
     public function setAddress3($x) {
-        $this->address3 = mysql_escape_string($x);
+        $this->address3 = mysql_real_escape_string($x);
     }
 
 	public function getAddress3() {
@@ -592,7 +613,7 @@ mobile?
     }
 
     public function setTown($x) {
-        $this->town = mysql_escape_string($x);
+        $this->town = mysql_real_escape_string($x);
     }
 
 	public function getTown() {
@@ -600,7 +621,7 @@ mobile?
     }
 
     public function setCounty($x) {
-        $this->county = mysql_escape_string($x);
+        $this->county = mysql_real_escape_string($x);
     }
 
 	public function getCounty() {
@@ -608,7 +629,7 @@ mobile?
     }
 
     public function setPostcode($x) {
-        $this->postcode = mysql_escape_string($x);
+        $this->postcode = mysql_real_escape_string($x);
     }
 
 	public function getPostcode() {
@@ -616,7 +637,7 @@ mobile?
     }
 
     public function setCountry($x) {
-        $this->country = mysql_escape_string($x);
+        $this->country = mysql_real_escape_string($x);
     }
 
 	public function getCountry() {
@@ -624,7 +645,7 @@ mobile?
     }
 
     public function setPhone($x) {
-        $this->phone = mysql_escape_string($x);
+        $this->phone = mysql_real_escape_string($x);
     }
 
 	public function getPhone() {
@@ -632,7 +653,7 @@ mobile?
     }
 
     public function setDisabled($x) {
-        $this->disabled = mysql_escape_string($x);
+        $this->disabled = mysql_real_escape_string($x);
     }
 
 	public function getDisabled() {
@@ -641,16 +662,16 @@ mobile?
 }
 
 class messages {
-	private $message_id //int(5),
-	private $subject //varchar(50),
-	private $comment //varchar(5000),
-	private $message_timestamp //datetime
+	private $message_id; //int(5),
+	private $subject; //varchar(50),
+	private $comment; //varchar(5000),
+	private $message_timestamp; //datetime
 
 	function __construct($message_id, $subject, $comment, $message_timestamp) {
-		$this->message_id = mysql_escape_string($message_id);
-		$this->subject = mysql_escape_string($subject);
-		$this->comment = mysql_escape_string($comment);
-		$this->message_timestamp = mysql_escape_string($message_timestamp);
+		$this->message_id = mysql_real_escape_string($message_id);
+		$this->subject = mysql_real_escape_string($subject);
+		$this->comment = mysql_real_escape_string($comment);
+		$this->message_timestamp = mysql_real_escape_string($message_timestamp);
 	}
 
 	public function insert() {
@@ -663,7 +684,7 @@ class messages {
 	}
 
     public function setMessage_id($x) {
-        $this->message_id = mysql_escape_string($x);
+        $this->message_id = mysql_real_escape_string($x);
     }
 
 	public function getMessage_id() {
@@ -671,7 +692,7 @@ class messages {
     }
 
     public function setSubject($x) {
-        $this->subject = mysql_escape_string($x);
+        $this->subject = mysql_real_escape_string($x);
     }
 
 	public function getSubject() {
@@ -679,7 +700,7 @@ class messages {
     }
 
     public function setComment($x) {
-        $this->comment = mysql_escape_string($x);
+        $this->comment = mysql_real_escape_string($x);
     }
 
 	public function getComment() {
@@ -687,7 +708,7 @@ class messages {
     }
 
     public function setMessage_timestamp($x) {
-        $this->message_timestamp = mysql_escape_string($x);
+        $this->message_timestamp = mysql_real_escape_string($x);
     }
 
 	public function getMessage_timestamp() {
@@ -696,26 +717,26 @@ class messages {
 }
 
 class comments {
-	private $comment_id //int(5),
-	private $user_id //int(5),
-	private $event_id //int(5),
-	private $comment_response_id //int(5),
-	private $comment_text //varchar(200),
-	private $comment_date //datetime,
-	private $disabled //varchar(1)	
+	private $comment_id; //int(5),
+	private $user_id; //int(5),
+	private $event_id; //int(5),
+	private $comment_response_id; //int(5),
+	private $comment_text; //varchar(200),
+	private $comment_date; //datetime,
+	private $disabled; //varchar(1)	
 
 	function __construct($comment_id, $user_id, $event_id, $comment_response_id, $comment_text, $comment_date, $disabled) {
-		$this->comment_id = mysql_escape_string($comment_id);
-		$this->user_id = mysql_escape_string($user_id);
-		$this->event_id = mysql_escape_string($event_id);
-		$this->comment_response_id = mysql_escape_string($comment_response_id);
-		$this->comment_text = mysql_escape_string($comment_text);
-		$this->comment_date = mysql_escape_string($comment_date);
-		$this->disabled = mysql_escape_string($disabled);
+		$this->comment_id = mysql_real_escape_string($comment_id);
+		$this->user_id = mysql_real_escape_string($user_id);
+		$this->event_id = mysql_real_escape_string($event_id);
+		$this->comment_response_id = mysql_real_escape_string($comment_response_id);
+		$this->comment_text = mysql_real_escape_string($comment_text);
+		$this->comment_date = mysql_real_escape_string($comment_date);
+		$this->disabled = mysql_real_escape_string($disabled);
 	}
 
     public function setComment_id($x) {
-        $this->comment_id = mysql_escape_string($x);
+        $this->comment_id = mysql_real_escape_string($x);
     }
 
 	public function getComment_id() {
@@ -723,7 +744,7 @@ class comments {
     }
 
     public function setUser_id($x) {
-        $this->user_id = mysql_escape_string($x);
+        $this->user_id = mysql_real_escape_string($x);
     }
 
 	public function getUser_id() {
@@ -731,7 +752,7 @@ class comments {
     }
 
     public function setEvent_id($x) {
-        $this->event_id = mysql_escape_string($x);
+        $this->event_id = mysql_real_escape_string($x);
     }
 
 	public function getEvent_id() {
@@ -739,7 +760,7 @@ class comments {
     }
 
     public function setComment_response_id($x) {
-        $this->comment_response_id = mysql_escape_string($x);
+        $this->comment_response_id = mysql_real_escape_string($x);
     }
 
 	public function getComment_response_id() {
@@ -747,7 +768,7 @@ class comments {
     }
 
     public function setComment_text($x) {
-        $this->comment_text = mysql_escape_string($x);
+        $this->comment_text = mysql_real_escape_string($x);
     }
 
 	public function getComment_text() {
@@ -755,7 +776,7 @@ class comments {
     }
 
     public function setComment_date($x) {
-        $this->comment_date = mysql_escape_string($x);
+        $this->comment_date = mysql_real_escape_string($x);
     }
 
 	public function getComment_date() {
@@ -763,11 +784,124 @@ class comments {
     }
 
     public function setDisabled($x) {
-        $this->disabled = mysql_escape_string($x);
+        $this->disabled = mysql_real_escape_string($x);
     }
 
 	public function getDisabled() {
         return $this->disabled;
+    }
+}
+
+class notifications {
+	private $notification_id; //int(5),
+	private $notification_timestamp; //timestamp, DO WE WANNA CHANGE THIS TO DATETIME
+	private $user_id; //int(5),
+	private $event_id; //int(5),
+	private $status; //varchar(1),
+	private $read; //varchar(1)
+
+	function __construct($notification_id, $notification_timestamp, $user_id, $event_id, $status, $read) {
+	$this->notification_id = mysql_real_escape_string($notification_id);
+	$this->notification_timestamp = mysql_real_escape_string($notification_timestamp);
+	$this->user_id = mysql_real_escape_string($user_id);
+	$this->event_id = mysql_real_escape_string($event_id);
+	$this->status = mysql_real_escape_string($status);
+	$this->read = mysql_real_escape_string($read);
+	}
+
+    public function setNotification_id($x) {
+        $this->notification_id = mysql_real_escape_string($x);
+    }
+
+	public function getNotifcation_id() {
+        return $this->notification_id;
+    }
+
+    public function setNotification_timestamp($x) {
+        $this->notification_timestamp = mysql_real_escape_string($x);
+    }
+
+	public function getNotifcation_timestamp() {
+        return $this->notification_timestamp;
+    }
+
+    public function setUser_id($x) {
+        $this->user_id = mysql_real_escape_string($x);
+    }
+
+	public function getUser_id() {
+        return $this->user_id;
+    }
+
+    public function setEvent_id($x) {
+        $this->event_id = mysql_real_escape_string($x);
+    }
+
+	public function getEvent_id() {
+        return $this->event_id;
+    }
+
+    public function setStatus($x) {
+        $this->status = mysql_real_escape_string($x);
+    }
+
+	public function getStatus() {
+        return $this->status;
+    }
+
+    public function setRead($x) {
+        $this->read = mysql_real_escape_string($x);
+    }
+
+	public function getRead() {
+        return $this->read;
+    }
+}
+
+class groups {
+	private $group_id; //int(5),
+	private $admin_id; //int(5),
+	private $name; //varchar(50)
+	private $group_date; // ADD THIS INTO THE TABLE
+
+	function __construct($group_id, $admin_id, $name, $group_date) {
+		$this->group_id = mysql_real_escape_string($group_id);
+		$this->admin_id = mysql_real_escape_string($admin_id);
+		$this->name = mysql_real_escape_string($name);
+		$this->group_date = mysql_real_escape_string($group_date);	
+	}
+
+	public function insert() {
+		$result = mysql_query("INSERT INTO groups VALUES (null, '$this->admin_id', '$this->name', '$this->group_date')");
+		if ($result) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+    public function setGroup_id($x) {
+        $this->group_id = mysql_real_escape_string($x);
+    }
+
+	public function getGroup_id() {
+        return $this->group_id;
+    }
+
+    public function setAdmin_id($x) {
+        $this->admin_id = mysql_real_escape_string($x);
+    }
+
+	public function getAdmin_id() {
+        return $this->admin_id;
+    }
+
+    public function setName($x) {
+        $this->name = mysql_real_escape_string($x);
+    }
+
+	public function getName() {
+        return $this->name;
     }
 }
 
