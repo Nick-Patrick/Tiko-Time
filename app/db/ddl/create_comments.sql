@@ -1,6 +1,4 @@
-DROP TABLE comments;
-
-CREATE TABLE comments
+CREATE TABLE IF NOT EXISTS comments
 (
 	comment_id int(5),
 	user_id int(5),

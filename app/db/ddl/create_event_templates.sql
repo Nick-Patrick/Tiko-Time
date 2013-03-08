@@ -1,6 +1,4 @@
-DROP TABLE event_templates;
-
-CREATE TABLE event_templates
+CREATE TABLE IF NOT EXISTS event_templates
 (
 	event_template_id int(5),
 	user_id int(5),

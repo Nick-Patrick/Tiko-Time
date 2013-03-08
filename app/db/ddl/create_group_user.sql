@@ -1,6 +1,4 @@
-drop table group_user;
-
-create table group_user
+create table IF NOT EXISTS group_user
 (
 	group_user_id int(5),
 	group_id int(5),

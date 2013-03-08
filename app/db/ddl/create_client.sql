@@ -1,6 +1,4 @@
-drop table clients;
-
-create table clients
+CREATE TABLE IF NOT EXISTS clients
 (
 	client_id int(5),
 	lead_id int(5),
@@ -16,6 +14,7 @@ create table clients
 	postcode varchar(10),
 	country varchar(50),
 	phone varchar(30),
+	workphone varchar(30),
 	email varchar(60),
 	disabled varchar(1)
 );

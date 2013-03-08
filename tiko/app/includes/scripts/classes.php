@@ -1,4 +1,7 @@
 <?php
+
+include_once 'mysql_connect.php';
+
 class calendar {
 	private $curDay;
 	private $curMon;
@@ -368,7 +371,6 @@ class event {
 	private $description; //varchar(250),
 	private $time_start; //datetime,
 	private $time_end; //datetime,
-	private $event_date; //date,
 	private $type; //varchar(50),
 	private $status; //varchar(1),
 	private $location; //varchar(40)
@@ -379,7 +381,6 @@ class event {
 		$this->description = mysql_real_escape_string($description);
 		$this->time_start = mysql_real_escape_string($time_start);
 		$this->time_end = mysql_real_escape_string($time_end);
-		$this->event_date = mysql_real_escape_string($event_date);
 		$this->type = mysql_real_escape_string($type);
 		$this->status = mysql_real_escape_string($status);
 		$this->location = mysql_real_escape_string($location);
@@ -436,14 +437,6 @@ class event {
 
 	public function getTime_end() {
         return $this->time_end;
-    }
-
-    public function setEvent_date($x) {
-        $this->event_date = mysql_real_escape_string($x);
-    }
-
-	public function getEvent_date() {
-        return $this->event_date;
     }
 
     public function setType($x) {
@@ -798,7 +791,7 @@ class notifications {
 	private $user_id; //int(5),
 	private $event_id; //int(5),
 	private $status; //varchar(1),
-	private $read; //varchar(1)
+	private $has_read; //varchar(1)
 
 	function __construct($notification_id, $notification_timestamp, $user_id, $event_id, $status, $read) {
 	$this->notification_id = mysql_real_escape_string($notification_id);
@@ -806,7 +799,7 @@ class notifications {
 	$this->user_id = mysql_real_escape_string($user_id);
 	$this->event_id = mysql_real_escape_string($event_id);
 	$this->status = mysql_real_escape_string($status);
-	$this->read = mysql_real_escape_string($read);
+	$this->has_read = mysql_real_escape_string($has_read);
 	}
 
     public function setNotification_id($x) {
@@ -849,12 +842,12 @@ class notifications {
         return $this->status;
     }
 
-    public function setRead($x) {
-        $this->read = mysql_real_escape_string($x);
+    public function setHasRead($x) {
+        $this->has_read = mysql_real_escape_string($x);
     }
 
-	public function getRead() {
-        return $this->read;
+	public function getHasRead() {
+        return $this->has_read;
     }
 }
 
