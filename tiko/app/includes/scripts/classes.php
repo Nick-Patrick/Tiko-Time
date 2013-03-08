@@ -855,17 +855,17 @@ class groups {
 	private $group_id; //int(5),
 	private $admin_id; //int(5),
 	private $name; //varchar(50)
-	private $group_date; // ADD THIS INTO THE TABLE
+	private $group_created; // ADD THIS INTO THE TABLE
 
-	function __construct($group_id, $admin_id, $name, $group_date) {
+	function __construct($group_id, $admin_id, $name, $group_created) {
 		$this->group_id = mysql_real_escape_string($group_id);
 		$this->admin_id = mysql_real_escape_string($admin_id);
 		$this->name = mysql_real_escape_string($name);
-		$this->group_date = mysql_real_escape_string($group_date);	
+		$this->group_created = mysql_real_escape_string($group_created);	
 	}
 
 	public function insert() {
-		$result = mysql_query("INSERT INTO groups VALUES (null, '$this->admin_id', '$this->name', '$this->group_date')");
+		$result = mysql_query("INSERT INTO groups VALUES (null, '$this->admin_id', '$this->name', '$this->group_created')");
 		if ($result) {
 			return true;
 		} else {
