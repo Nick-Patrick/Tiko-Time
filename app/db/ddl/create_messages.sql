@@ -1,6 +1,4 @@
-drop table messages;
-
-create table messages
+create table IF NOT EXISTS messages
 (
 	message_id int(5),
 	title varchar(50),

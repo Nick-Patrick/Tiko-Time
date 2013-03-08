@@ -1,6 +1,5 @@
-drop table users;
 
-create table users
+create table IF NOT EXISTS users
 (	user_id int(5),
 	email varchar(80),
 	userpass varchar(300),
@@ -14,6 +13,5 @@ create table users
 	postcode varchar(10),
 	country varchar(50),
 	phone varchar(30),
-	email varchar(60),
 	disabled varchar(1)	
 );

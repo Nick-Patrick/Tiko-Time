@@ -9,3 +9,6 @@ create table IF NOT EXISTS events
 	status varchar(1),
 	location varchar(40)
 );
+
+--cost
+--attendees
