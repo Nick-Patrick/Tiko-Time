@@ -135,3 +135,10 @@ CREATE TABLE IF NOT EXISTS events_custom
 	events_name varchar(50),
 	event_name_value varchar(250)
 );
+
+CREATE TABLE IF NOT EXISTS event_dates
+(
+	event_date_id int(5),
+	event_id int(5),
+	event_date datetime	
+);
