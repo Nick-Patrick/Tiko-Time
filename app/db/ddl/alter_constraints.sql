@@ -280,3 +280,22 @@ ALTER TABLE user_message
 
 
 ###################
+
+## Event Dates - Primary and Foreign Keys ##
+
+ALTER TABLE `event_dates`
+   ADD PRIMARY KEY(
+     `event_date_id`);
+
+ALTER TABLE `event_dates`
+   CHANGE COLUMN event_date_id event_date_id INT(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE event_dates
+  CHANGE COLUMN event_id event_id INT(5) UNSIGNED;
+
+ALTER TABLE event_dates
+   ADD CONSTRAINT fk_ev_dates_event_id
+   FOREIGN KEY (event_id)
+   REFERENCES events(event_id);
+
+#######################
