@@ -15,6 +15,7 @@
 			var day = $(this).text();
 			//var user_id = 
 			var user_id = '123';
+			var date = year+"/"+mon+"/"+day;
 
 			var html = "<tr class='calendar-choice'><td colspan='7'>";
 			html += "<section class='planned-tasks'></section>";
@@ -37,6 +38,14 @@
 	        	async: false
 	    	}).responseText;
 	    	$("#event_type_selection").html(value);
+
+	    	var events = $.ajax({
+	        	type: "POST",
+	        	url: "includes/scripts/fn_event_retrieval.php",
+	        	data: "date="+date+"&dateEvent=y",
+	        	async: false
+	    	}).responseText;
+	    	$(".planned-tasks").html(events);
 		}
 
 	});
