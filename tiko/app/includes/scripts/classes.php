@@ -1,12 +1,16 @@
 <?php
 
-include_once 'mysql_connect.php';
+include_once 'fn_mysql_connect.php';
+$error = "<p>Ohh NOOO, An error occured :(</p>";
 
 class calendar {
 	private $curDay;
 	private $curMon;
 	private $curYear;
 	private $currentDate;
+
+	private $error = "<p>Ohh NOOO, An error occured :(</p>";
+	private $event_template_id;
 
 
 	function __construct() {
@@ -28,7 +32,7 @@ class calendar {
 			4 => 'Fri', 
 			5 => 'Sat', 
 			6 => 'Sun'
-			);
+		);
 
 		$months = array(
 			'1' => 'January', 
@@ -43,50 +47,24 @@ class calendar {
 			'10' => 'October',
 			'11' => 'November',
 			'12' => 'December'
-			);
+		);
 
 		$daysinmonth = cal_days_in_month(CAL_GREGORIAN, $this->curMon, $this->curYear);
 
 		$monthPrevious = $this->curMon - 1;
-		if ($monthPrevious == 00) {
+		if ($monthPrevious == 0) {
 			$monthPrevious = 12;
-			$this->curYear = $this->curYear - 1;
+			$yearPrevious = $this->curYear - 1;
+		} else {
+			$yearPrevious = $this->curYear;
 		}
 
-		$daysinprevmonth = cal_days_in_month(CAL_GREGORIAN, $monthPrevious, $this->curYear);
-		
-		//$output = "<section><form action='index.php' method='post'><input type='submit' name='prev' value='Previous'><input type='submit' name='next' value='Next'></form></section>";
-		
+
+		$daysinprevmonth = cal_days_in_month(CAL_GREGORIAN, $monthPrevious, $yearPrevious);
+	
 		$output = "<section class='calendar-top'>";
 		$output .= "<h2>" . $months[$this->curMon] . " " . $this->curYear . "</h2>";
-		/*$output .= '<section class="calendar-options">
-		<form action="index.php" method="POST">
-			<select name="month" id="mn">
-				<option value="1">Jan</option>
-				<option value="2">Feb</option>
-				<option value="3">Mar</option>
-				<option value="4">Apr</option>
-				<option value="5">May</option>
-				<option value="6">Jun</option>
-				<option value="7">Jul</option>
-				<option value="8">Aug</option>
-				<option value="9">sep</option>
-				<option value="10">Oct</option>
-				<option value="11">Nov</option>
-				<option value="12">Dec</option>
-			</select>
-			<select name="year" id="yr">
-				<option value="2012">2012</option>
-				<option value="2013" selected="selected">2013</option>
-				<option value="2014">2014</option>
-				<option value="2015">2015</option>
-				<option value="2016">2016</option>
-			</select>
-		</form>
 
-
-		<section><button id="p"><</button><button id="n">></button></section>
-	</section>';*/
 		$output .= "</section><section class='calendar-main'>";
 
 		$output .= "<table class='calendar-tab'><thead>";
@@ -99,7 +77,7 @@ class calendar {
 		$masterCounter = 0;
 
 
-		$dynamicDate = mktime(0, 0, 0, $monthPrevious, $daysinprevmonth, $this->curYear);
+		$dynamicDate = mktime(0, 0, 0, $monthPrevious, $daysinprevmonth, $yearPrevious);
 		$startDay = date('N', $dynamicDate);
 		//$startDay--;
 		
@@ -126,7 +104,7 @@ class calendar {
 
 			$masterCounter++;	
 			
-			$output .= "<td><button class='calendar-day' rel='" . $this->curMon . "," . $this->curYear . "'>" . $daycount . "<span></span></button></td>";
+			$output .= "<td><button class='calendar-day' name='1234' rel='" . $this->curMon . "," . $this->curYear . "'>" . $daycount . "<span></span></button></td>";
 			//onClick='popup(" . $daycount . ", " . $this->curMon . ", " . $this->curYear . ")'
 		}
 		if ($masterCounter < 7) {
@@ -143,15 +121,81 @@ class calendar {
 		echo $output; 
 	}
 
-	public function getEventsByDay($date) {
-		$result = mysql_query("SELECT * FROM events WHERE event_date = 'mysql_real_escape_string($date)'");
+	public function getCustomEvents($user_id) {
+		$result = mysql_query("SELECT * FROM event_templates WHERE user_id = '" . mysql_real_escape_string($user_id) . "' OR user_id IS null");
 		if (mysql_num_rows($result) > 0) {
-			$output = "";
+			$output = "<select id='event_type'>";
+			$output .= "<option selected='selected'>Please Select</option>";
 			while ($row = mysql_fetch_array($result)) {
-				$output .= "<li></li>";
+				$output .= "<option value='" . $row['event_template_id'] . "'>" . $row['event_template_name'] . "</option>";
 			}
+			$output .= "</select>";
+			$output .= "<script src='includes/js/fn_load_event_form.js'></script>";
 		} else {
-			$output = "Get Busy";
+			$output = $this->error;
+		}
+		echo $output;
+	}
+
+	public function getEventForm($event_template_id) { 
+		$hours = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24);
+		$minutes = array(0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55);
+
+		$result = mysql_query("SELECT event_options FROM event_templates WHERE event_template_id = '" . mysql_real_escape_string($event_template_id) . "'");
+		$string = mysql_result($result, 0);
+		if (mysql_num_rows($result) > 0) {
+			$output = "<ul>";
+			$output .= "<li><label for='name'>Name:</label><input type='text' id='new_event_name' name='name'></li>";
+			$output .= "<li><label for='description'>Description:</label><textarea name='description' id='new_event_desc'></textarea></li>";
+			$output .= "<li><label for='time_start'>Time Start:</label><span>Hours</span><select id='new_event_time_start_hours' name='time_start_hours'>";
+			foreach ($hours as $hour) {
+				$output .= "<option value='" . $hour . "'>" . $hour . "</option>";
+			}
+			$output .= "</select><span>Minutes:</span><select id='new_event_time_start_mins' name='time_start_mins'>";
+			foreach ($minutes as $mins) {
+				$output .= "<option value='" . $mins . "'>" . $mins . "</option>";
+			}
+			$output .= "</select></li>";
+			$output .= "<li><label for='time_end'>Time End:</label><span>Hours</span><select id='new_event_time_end_hours' name='time_start_end'>";
+			foreach ($hours as $hour) {
+				$output .= "<option value='" . $hour . "'>" . $hour . "</option>";
+			}
+			$output .= "</select><span>Minutes:</span><select id='new_event_time_end_mins' name='time_end_mins'>";
+			foreach ($minutes as $mins) {
+				$output .= "<option value='" . $mins . "'>" . $mins . "</option>";
+			}
+			$output .= "</select><a href='' class='event_end_calendar'>Later date</a></li>";
+			$output .= "<li><input type='hidden' name='type' value='' id='new_event_type'></li>";
+			$output .= "<li><label for='location'>Location:</label><input type='text' id='new_event_location' name='location'></li>";
+
+			$array = explode(",", $string);
+			$i = 0;
+			foreach ($array as &$res) {
+				$i++;
+				$output .= "<li><label for='=time_end'>" . $res . ":</label><input type='text' name='custom_" . $i . "'></li>";
+			}
+			$output .= "<li><label for='create_event'></label><button id='create_event_button'>Create</button></li>";
+			$output .= "</ul>";
+			$output .= "<script src='includes/js/fn_insert_event.js'></script>";
+		} else {
+			$output = $this->error;
+		}
+		return $output;
+	}
+
+	public function getEventsByDay($date) {
+		$mysqldate = date('Y-m-d', strtotime($date));
+		$result = mysql_query("SELECT * FROM events WHERE date(time_start) = '" . $mysqldate . "'");
+		if (mysql_num_rows($result) > 0) {
+			$output = "<h4>Planned Events</h4><ul>";
+			while ($row = mysql_fetch_array($result)) {
+				$datetime = new DateTime($row['time_start']);
+				$time = $datetime->format('H:i');
+				$output .= "<li><a href=''><span class='calendar-event-time'>" . $time . "</span><span class='calendar-event-icon'><img src='includes/images/icons/plane-icon.png'></span>" . $row['name'] . "</a></li>";
+			}
+			$output .= "</ul>";
+		} else {
+			$output = "Currently no events planned";
 		}
 		return $output;
 	}
@@ -374,8 +418,13 @@ class event {
 	private $type; //varchar(50),
 	private $status; //varchar(1),
 	private $location; //varchar(40)
+	private $custom1;
+	private $custom2;
+	private $custom3;
+	private $custom4;
+	private $custom5;
 
-	function __construct($event_id, $name, $description, $time_start, $time_end, $event_date, $type, $status, $location) {
+	function __construct($event_id, $name, $description, $time_start, $time_end, $type, $status, $location, $custom1, $custom2, $custom3, $custom4, $custom5) {
 		$this->event_id = mysql_real_escape_string($event_id);
 		$this->name = mysql_real_escape_string($name);
 		$this->description = mysql_real_escape_string($description);
@@ -384,11 +433,42 @@ class event {
 		$this->type = mysql_real_escape_string($type);
 		$this->status = mysql_real_escape_string($status);
 		$this->location = mysql_real_escape_string($location);
+		$this->custom1 = mysql_real_escape_string($custom1);
+		$this->custom2 = mysql_real_escape_string($custom2);
+		$this->custom3 = mysql_real_escape_string($custom3);
+		$this->custom4 = mysql_real_escape_string($custom4);
+		$this->custom5 = mysql_real_escape_string($custom5);
 	}
 
-	public function insert() {
-		$result = mysql_query("INSERT INTO events VALUES (null, '$this->name', '$this->description', '$this->time_start', '$this->time_end', '$this->event_date', '$this->type', '$this->status', '$this->location')");
+	public function create() {
+		if ($this->custom1 != 'null') {
+			if ($this->custom2 != 'null') {
+				if ($this->custom3 != 'null') {
+					if ($this->custom4 != 'null') {
+						if ($this->custom5 != 'null') {
+							$result = mysql_query("INSERT INTO events VALUES (null, '$this->name', '$this->description', '$this->time_start', '$this->time_end', '$this->type', '$this->status', '$this->location', $this->custom1, $this->custom2, $this->custom3, $this->custom4, $this->custom5)");
+						} else {
+							$result = mysql_query("INSERT INTO events VALUES (null, '$this->name', '$this->description', '$this->time_start', '$this->time_end', '$this->type', '$this->status', '$this->location', $this->custom1, $this->custom2, $this->custom3, $this->custom4, null)");
+						}
+					} else {
+						$result = mysql_query("INSERT INTO events VALUES (null, '$this->name', '$this->description', '$this->time_start', '$this->time_end', '$this->type', '$this->status', '$this->location', $this->custom1, $this->custom2, $this->custom3, null, null)");
+					}
+				} else {
+					$result = mysql_query("INSERT INTO events VALUES (null, '$this->name', '$this->description', '$this->time_start', '$this->time_end', '$this->type', '$this->status', '$this->location', $this->custom1, $this->custom2, null, null, null)");
+				}
+			} else {
+				$result = mysql_query("INSERT INTO events VALUES (null, '$this->name', '$this->description', '$this->time_start', '$this->time_end', '$this->type', '$this->status', '$this->location', '$this->custom1', null, null, null, null)");
+			}
+		} else {
+			$result = mysql_query("INSERT INTO events VALUES (null, '$this->name', '$this->description', '$this->time_start', '$this->time_end', '$this->type', '$this->status', '$this->location', null, null, null, null, null)");
+		}
 		return $result;
+	}
+
+	public function insertBetweenDates($date) {
+		$id = mysql_query("SELECT SCOPE_IDENTITY()");
+		$result = mysql_query("INSERT INTO event_dates VALUES (null, $id, $date)");
+		////////////////////////////////////////
 	}
 
 	public function getEventDetails() {

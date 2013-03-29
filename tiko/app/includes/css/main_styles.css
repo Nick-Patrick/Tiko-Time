@@ -216,5 +216,53 @@ nav a:hover {
 	color: #444;
 }
 
+/*ADD EVENT FORM*/
+#day_date {
+	display: inline;
+	margin: 0px 0px 5px 0px;
+}
 
+#event_type {
+	float: right;
+	margin-right: 20px;
+}
+
+#event_form ul li {
+	padding: 3px;
+}
+
+#event_form ul li label {
+	vertical-align: top;
+	width: 200px;
+	display: inline-block;
+}
+
+#event_form ul li input[type=text] {
+	padding:2px;
+	border: 2px solid #e9e9e9;
+	width:180px;
+	margin: 0px;
+}
+
+#event_form ul li textarea {
+	margin: 0px;
+	border: 2px solid #e9e9e9;
+	width:180px;
+}
+
+#event_form span {
+	color: #888;
+	padding: 2px ;
+}
+
+#create_event_button {
+	border: 2px solid #e9e9e9;
+	background-color: #d6d6d6;
+	font-size: 1em;
+	display: inline;
+	padding: 3px;
+	width: 100px;
+	text-align: center;
+}
+/*END ADD EVENT FORM*/
 /* END CALENDER STYLES */

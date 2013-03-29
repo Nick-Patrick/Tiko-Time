@@ -44,7 +44,7 @@ $(document).ready(function() {
 
     var valueo = $.ajax({
     	type: "POST",
-        url: "includes/scripts/calendar.php",
+        url: "includes/scripts/fn_calendar.php",
         data: "m="+m+"&y="+y ,
         async: false
     }).responseText;
@@ -60,7 +60,7 @@ $(document).ready(function() {
 		console.log(y);
     	var value = $.ajax({
         type: "POST",
-        url: "includes/scripts/calendar.php",
+        url: "includes/scripts/fn_calendar.php",
         data: "m="+m+"&y="+y ,
         async: false
     	}).responseText;
@@ -76,7 +76,7 @@ $(document).ready(function() {
 		console.log(y);
     	var value = $.ajax({
         type: "POST",
-        url: "includes/scripts/calendar.php",
+        url: "includes/scripts/fn_calendar.php",
         data: "m="+m+"&y="+y ,
         async: false
     	}).responseText;
@@ -88,7 +88,7 @@ $(document).ready(function() {
 		console.log(y);
     	var value = $.ajax({
         type: "POST",
-        url: "includes/scripts/calendar.php",
+        url: "includes/scripts/fn_calendar.php",
         data: "m="+m+"&y="+y ,
         async: false
     	}).responseText;
@@ -100,7 +100,7 @@ $(document).ready(function() {
 		console.log(y);
     	var value = $.ajax({
         type: "POST",
-        url: "includes/scripts/calendar.php",
+        url: "includes/scripts/fn_calendar.php",
         data: "m="+m+"&y="+y ,
         async: false
     	}).responseText;
@@ -108,6 +108,9 @@ $(document).ready(function() {
 	});
 	/*END CALENDER FUNCTION*/
 
+	/*EVENT TYPES FUCNTIONS*/
+
+	/*END EVENT TYPES FUNCTION*/
 });
 </script>
 </section>

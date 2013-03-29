@@ -13,14 +13,13 @@
 			var mon = parseInt(array[0]);
 			var year = parseInt(array[1]);
 			var day = $(this).text();
+			//var user_id = 
+			var user_id = '123';
 
 			var html = "<tr class='calendar-choice'><td colspan='7'>";
-			html += "<section class='planned-tasks'><h4>Current Tasks</h4><ul>";
-			html += "<li><a href=''><span class='calendar-event-time'>10:30</span><span class='calendar-event-icon'><img src='includes/images/icons/plane-icon.png'></span>Event 1</a></li>";
-			html += "<li><a href=''><span class='calendar-event-time'>11:30</span><span class='calendar-event-icon'><img src='includes/images/icons/meeting-icon.png'></span>Event 2</a></li>";
-			html += "<li><a href=''><span class='calendar-event-time'>14:00</span><span class='calendar-event-icon'><img src='includes/images/icons/plane-icon.png'></span>Event 3</a></li>";
-			html += "</ul></section>";
-			html += "<h3>"+day+"/"+mon+"/"+year+"</h3>";
+			html += "<section class='planned-tasks'></section>";
+			html += "<h3 id='day_date'>"+year+"/"+mon+"/"+day+"</h3>";
+			html += "<section id='event_type_selection'></section><section id='event_form'></section>";
 			html +=	"</td></tr>";
 			$(this).closest('tr').after(html);
 
@@ -30,6 +29,14 @@
 				$(this).slideToggle(500);
 			});
 			//$(".calendar-choice td").slideToggle(500);
+
+	    	var value = $.ajax({
+	        	type: "POST",
+	        	url: "includes/scripts/fn_event_retrieval.php",
+	        	data: "id="+user_id+"&form=y",
+	        	async: false
+	    	}).responseText;
+	    	$("#event_type_selection").html(value);
 		}
 
 	});
