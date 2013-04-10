@@ -1,6 +1,5 @@
 <html>
 <head>
-	<?php require("header.php") ?>
 
 	<link href="includes/css/reset.css" rel="stylesheet">
 	<link href="includes/css/main_styles.css" rel="stylesheet">

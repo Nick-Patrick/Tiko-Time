@@ -25,9 +25,24 @@
 	color: #0786C9;
 } 
 
-.calendar-event-time {
+.planned-tasks ul {
+	margin: 10px 0px 0px 0px;
+}
+
+.planned-tasks ul li {
+	position: relative;
+}
+
+.calendar-event-time-start {
 	margin-right: 10px;
 	color: #666;
+}
+
+.calendar-event-time-end {
+	margin-right: 10px;
+	color: #666;
+	position: absolute;
+	right:0px;
 }
 
 .calendar-event-icon {

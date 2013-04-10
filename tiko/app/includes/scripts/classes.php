@@ -1,5 +1,4 @@
 <?php
-
 include_once 'fn_mysql_connect.php';
 $error = "<p>Ohh NOOO, An error occured :(</p>";
 
@@ -185,13 +184,66 @@ class calendar {
 
 	public function getEventsByDay($date) {
 		$mysqldate = date('Y-m-d', strtotime($date));
-		$result = mysql_query("SELECT * FROM events WHERE date(time_start) = '" . $mysqldate . "'");
+		$result = mysql_query("SELECT e.event_id, ed.event_date FROM events e INNER JOIN event_dates ed ON ((e.event_id=ed.event_id)) WHERE date(ed.event_date) = '" . $mysqldate . "' ORDER BY ed.event_date ASC");
 		if (mysql_num_rows($result) > 0) {
 			$output = "<h4>Planned Events</h4><ul>";
+
+			$id = array();
+
 			while ($row = mysql_fetch_array($result)) {
-				$datetime = new DateTime($row['time_start']);
-				$time = $datetime->format('H:i');
-				$output .= "<li><a href=''><span class='calendar-event-time'>" . $time . "</span><span class='calendar-event-icon'><img src='includes/images/icons/plane-icon.png'></span>" . $row['name'] . "</a></li>";
+				$id[] = $row["event_id"];
+			}
+
+			$countingArray = array_count_values($id);
+
+			foreach ($countingArray as $key=>$value) {
+				if ($value > 1) {
+					$result = mysql_query("SELECT * FROM events WHERE event_id = " . $key . "");
+					$dateresult = mysql_query("SELECT * FROM event_dates WHERE event_id = " . $key . " ORDER BY event_date ASC");
+
+					$start = mysql_result($dateresult, 0, "event_date");
+					$end = mysql_result($dateresult, 1, "event_date");
+
+					$date_start = date('Y-m-d', strtotime($start));
+					if ($date_start == $mysqldate) {
+						$start = date('H:i', strtotime($start));
+					} else {
+						$start = date('d/m/Y', strtotime($start));
+					}
+
+					$date_end = date('Y-m-d', strtotime($end));
+					if ($date_end == $mysqldate) {
+						$end = date('H:i', strtotime($end));
+					} else {
+						$end = date('d/m/Y', strtotime($end));
+					}
+
+
+					$output .= "<li><a href=''><span class='calendar-event-time-start'>" . $start . "</span><span class='calendar-event-icon'><img src='includes/images/icons/plane-icon.png'></span>" . mysql_result($result, 0, "name") . "<span class='calendar-event-time-end'>" . $end . "</span></a></li>";
+				} else {
+					$result = mysql_query("SELECT * FROM events WHERE event_id = " . $key . "");
+					$dateresult = mysql_query("SELECT * FROM event_dates WHERE event_id = " . $key . " ORDER BY event_date ASC");
+					$days = mysql_num_rows($dateresult) - 1;
+
+					$start = mysql_result($dateresult, 0, "event_date");
+					$end = mysql_result($dateresult, $days, "event_date");
+
+					$date_start = date('Y-m-d', strtotime($start));
+					if ($date_start == $mysqldate) {
+						$start = date('H:i', strtotime($start));
+					} else {
+						$start = date('d/m/Y', strtotime($start));
+					}
+
+
+					$date_end = date('Y-m-d', strtotime($end));
+					if ($date_end == $mysqldate) {
+						$end = date('H:i', strtotime($end));
+					} else {
+						$end = date('d/m/Y', strtotime($end));
+					}
+					$output .= "<li><a href=''><span class='calendar-event-time-start'>" . $start . "</span><span class='calendar-event-icon'><img src='includes/images/icons/plane-icon.png'></span>" . mysql_result($result, 0, "name") . "<span class='calendar-event-time-end'>" . $end . "</span></a></li>";
+				}
 			}
 			$output .= "</ul>";
 		} else {
@@ -413,8 +465,8 @@ class event {
 	private $event_id; //int(5),
 	private $name; //varchar(50),
 	private $description; //varchar(250),
-	private $time_start; //datetime,
-	private $time_end; //datetime,
+	private $date_start; //datetime,
+	private $date_end; //datetime,
 	private $type; //varchar(50),
 	private $status; //varchar(1),
 	private $location; //varchar(40)
@@ -424,12 +476,12 @@ class event {
 	private $custom4;
 	private $custom5;
 
-	function __construct($event_id, $name, $description, $time_start, $time_end, $type, $status, $location, $custom1, $custom2, $custom3, $custom4, $custom5) {
+	function __construct($event_id, $name, $description, $date_start, $date_end, $type, $status, $location, $custom1, $custom2, $custom3, $custom4, $custom5) {
 		$this->event_id = mysql_real_escape_string($event_id);
 		$this->name = mysql_real_escape_string($name);
 		$this->description = mysql_real_escape_string($description);
-		$this->time_start = mysql_real_escape_string($time_start);
-		$this->time_end = mysql_real_escape_string($time_end);
+		$this->date_start = mysql_real_escape_string($date_start);
+		$this->date_end = mysql_real_escape_string($date_end);
 		$this->type = mysql_real_escape_string($type);
 		$this->status = mysql_real_escape_string($status);
 		$this->location = mysql_real_escape_string($location);
@@ -440,35 +492,59 @@ class event {
 		$this->custom5 = mysql_real_escape_string($custom5);
 	}
 
+	/*public function insertDatesBetweenTwoDates($startTime, $endTime) {
+    	$day = 86400;
+    	$format = 'Y-m-d H:i';
+    	$startTime = strtotime($startTime);
+   		$endTime = strtotime($endTime);
+    	$numDays = round(($endTime - $startTime) / $day) + 1;
+    	$days = array();
+        
+    	for ($i = 0; $i < $numDays; $i++) {
+        	$days[] = date($format, ($startTime + ($i * $day)));
+    	}
+       return $days;
+	}*/
+
 	public function create() {
-		if ($this->custom1 != 'null') {
-			if ($this->custom2 != 'null') {
-				if ($this->custom3 != 'null') {
-					if ($this->custom4 != 'null') {
-						if ($this->custom5 != 'null') {
-							$result = mysql_query("INSERT INTO events VALUES (null, '$this->name', '$this->description', '$this->time_start', '$this->time_end', '$this->type', '$this->status', '$this->location', $this->custom1, $this->custom2, $this->custom3, $this->custom4, $this->custom5)");
-						} else {
-							$result = mysql_query("INSERT INTO events VALUES (null, '$this->name', '$this->description', '$this->time_start', '$this->time_end', '$this->type', '$this->status', '$this->location', $this->custom1, $this->custom2, $this->custom3, $this->custom4, null)");
-						}
+		$day = 86400;
+    	$startTime = strtotime($this->date_start);
+   		$endTime = strtotime($this->date_end);
+
+    	$numDays = round(($endTime - $startTime) / $day) + 1;
+ 
+    	if ($numDays < 0) {
+    		$numDays = 1;
+    	}
+
+    	echo $this->date_start;
+    	echo $this->date_end;
+        
+		$result_events = mysql_query("INSERT INTO events VALUES (null, '$this->name', '$this->description', '$this->type', '$this->status', '$this->location', $this->custom1, $this->custom2, $this->custom3, $this->custom4, $this->custom5)");
+        $event_id = mysql_insert_id();
+
+        $result_dates = array();
+	        
+	    if ($result_events) {     
+	        if ($numDays == 1) {
+	        	$result_dates[] .= mysql_query("INSERT INTO event_dates VALUES (null, '$event_id', '" . $this->date_start . "')");
+	        	$result_dates[] .= mysql_query("INSERT INTO event_dates VALUES (null, '$event_id', '" . $this->date_end . "')");
+	        } else {
+	           	for ($i = 0; $i < $numDays; $i++) {
+					if ($i == $numDays-1) {
+						$result_dates[] .= mysql_query("INSERT INTO event_dates VALUES (null, '$event_id', '" . $this->date_end . "')");
 					} else {
-						$result = mysql_query("INSERT INTO events VALUES (null, '$this->name', '$this->description', '$this->time_start', '$this->time_end', '$this->type', '$this->status', '$this->location', $this->custom1, $this->custom2, $this->custom3, null, null)");
+						$result_dates[] .= mysql_query("INSERT INTO event_dates VALUES (null, '$event_id', DATE_ADD('" . $this->date_start . "', INTERVAL " . $i . " DAY))");
 					}
-				} else {
-					$result = mysql_query("INSERT INTO events VALUES (null, '$this->name', '$this->description', '$this->time_start', '$this->time_end', '$this->type', '$this->status', '$this->location', $this->custom1, $this->custom2, null, null, null)");
 				}
-			} else {
-				$result = mysql_query("INSERT INTO events VALUES (null, '$this->name', '$this->description', '$this->time_start', '$this->time_end', '$this->type', '$this->status', '$this->location', '$this->custom1', null, null, null, null)");
 			}
+		}
+		if (in_array(false, $result_dates)) {
+				$result = false;
 		} else {
-			$result = mysql_query("INSERT INTO events VALUES (null, '$this->name', '$this->description', '$this->time_start', '$this->time_end', '$this->type', '$this->status', '$this->location', null, null, null, null, null)");
+				$result = true;
 		}
 		return $result;
-	}
-
-	public function insertBetweenDates($date) {
-		$id = mysql_query("SELECT SCOPE_IDENTITY()");
-		$result = mysql_query("INSERT INTO event_dates VALUES (null, $id, $date)");
-		////////////////////////////////////////
 	}
 
 	public function getEventDetails() {
@@ -598,6 +674,16 @@ mobile?
 	public function insert() {
 		$result = mysql_query("INSERT INTO users VALUES (null, '$this->user_id', '$this->email', '$this->userpass', '$this->title', '$this->first_name', '$this->last_name', '$this->address1', '$this->address2', '$this->address3', '$this->town', '$this->county', '$this->postcode', '$this->country', '$this->phone', '$this->disabled')");
 		if ($result) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function log_in() {
+		$result = mysql_query("SELECT * FROM users WHERE email = '" . $this->email . "' AND userpass = '" . $this->userpass . "'");
+		if (mysql_num_rows($result) == 1) {
+			$_SESSION["user_id"] = mysql_result($result, 0, "user_id");
 			return true;
 		} else {
 			return false;

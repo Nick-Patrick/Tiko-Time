@@ -3,9 +3,13 @@
 		var name = $("#new_event_name").val();
 		var desc = $("#new_event_desc").val();
 		var date = $("#day_date").text();
-		var end_date = $("#end_date_id").val();
+		var end_date = $("#end_date_id")
 		var time_start = date + " " + $("#new_event_time_start_hours").val() + ":" + $("#new_event_time_start_mins").val() + ":00";
-		var time_end = end_date + " " + $("#new_event_time_end_hours").val() + ":" + $("#new_event_time_end_mins").val() + ":00";
+		if (end_date.length == 0) {
+			var time_end = date + " " + $("#new_event_time_end_hours").val() + ":" + $("#new_event_time_end_mins").val() + ":00";
+		} else {
+			var time_end = end_date.val() + " " + $("#new_event_time_end_hours").val() + ":" + $("#new_event_time_end_mins").val() + ":00";
+		}
 		var type = $("#new_event_type").val();
 		var location = $("#new_event_location").val();
 		if ($("#new_event_custom_1").length != 0) {
