@@ -26,14 +26,17 @@
 	//$date_end = explode(" ",$time_end);
 	//$date_end = $date_end[0];
 
+	if (isset($_SESSION["user_id"])) {
+		$event = new event('', $name, $desc, $date_start, $date_end, $type, 'Y', $location, $custom_1, $custom_2, $custom_3, $custom_4, $custom_5, $_SESSION["user_id"]);
+		$result = $event->create();
 
-	$event = new event('', $name, $desc, $date_start, $date_end, $type, 'Y', $location, $custom_1, $custom_2, $custom_3, $custom_4, $custom_5);
-	$result = $event->create();
-
-	if ($result == true) {
-		echo "Event created";
+		if ($result == true) {
+			echo "Event created";
+		} else {
+			echo "Event creation failure";
+		}
 	} else {
-		echo "Event creation failure";
+		echo "<script>window.location = '../index.php'</script>";
 	}
 
 ?>

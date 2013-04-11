@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once 'fn_mysql_connect.php';
 $error = "<p>Ohh NOOO, An error occured :(</p>";
 
@@ -475,8 +476,9 @@ class event {
 	private $custom3;
 	private $custom4;
 	private $custom5;
+	private $user_id;
 
-	function __construct($event_id, $name, $description, $date_start, $date_end, $type, $status, $location, $custom1, $custom2, $custom3, $custom4, $custom5) {
+	function __construct($event_id, $name, $description, $date_start, $date_end, $type, $status, $location, $custom1, $custom2, $custom3, $custom4, $custom5, $user_id) {
 		$this->event_id = mysql_real_escape_string($event_id);
 		$this->name = mysql_real_escape_string($name);
 		$this->description = mysql_real_escape_string($description);
@@ -490,6 +492,7 @@ class event {
 		$this->custom3 = mysql_real_escape_string($custom3);
 		$this->custom4 = mysql_real_escape_string($custom4);
 		$this->custom5 = mysql_real_escape_string($custom5);
+		$this->user_id = mysql_real_escape_string($user_id);
 	}
 
 	/*public function insertDatesBetweenTwoDates($startTime, $endTime) {
@@ -520,21 +523,21 @@ class event {
     	echo $this->date_start;
     	echo $this->date_end;
         
-		$result_events = mysql_query("INSERT INTO events VALUES (null, '$this->name', '$this->description', '$this->type', '$this->status', '$this->location', $this->custom1, $this->custom2, $this->custom3, $this->custom4, $this->custom5)");
+		$result_events = mysql_query("INSERT INTO events VALUES (null, '$this->name', '$this->description', '$this->type', '$this->status', '$this->location', $this->custom1, $this->custom2, $this->custom3, $this->custom4, $this->custom5, $this->user_id)");
         $event_id = mysql_insert_id();
 
         $result_dates = array();
 	        
 	    if ($result_events) {     
 	        if ($numDays == 1) {
-	        	$result_dates[] .= mysql_query("INSERT INTO event_dates VALUES (null, '$event_id', '" . $this->date_start . "')");
-	        	$result_dates[] .= mysql_query("INSERT INTO event_dates VALUES (null, '$event_id', '" . $this->date_end . "')");
+	        	$result_dates[] = mysql_query("INSERT INTO event_dates VALUES (null, '$event_id', '" . $this->date_start . "')");
+	        	$result_dates[] = mysql_query("INSERT INTO event_dates VALUES (null, '$event_id', '" . $this->date_end . "')");
 	        } else {
 	           	for ($i = 0; $i < $numDays; $i++) {
 					if ($i == $numDays-1) {
-						$result_dates[] .= mysql_query("INSERT INTO event_dates VALUES (null, '$event_id', '" . $this->date_end . "')");
+						$result_dates[] = mysql_query("INSERT INTO event_dates VALUES (null, '$event_id', '" . $this->date_end . "')");
 					} else {
-						$result_dates[] .= mysql_query("INSERT INTO event_dates VALUES (null, '$event_id', DATE_ADD('" . $this->date_start . "', INTERVAL " . $i . " DAY))");
+						$result_dates[] = mysql_query("INSERT INTO event_dates VALUES (null, '$event_id', DATE_ADD('" . $this->date_start . "', INTERVAL " . $i . " DAY))");
 					}
 				}
 			}
@@ -552,6 +555,15 @@ class event {
 		if (mysql_num_rows($result) > 0) {
 			$output = "";
 			
+		}
+	}
+
+	public function display_events() {
+		$result = mysql_query("SELECT * FROM events e INNER JOIN event_dates ed ON ((e.event_id=ed.event_id)) WHERE e.user_id = '1' ORDER BY ed.event_date");
+		if ($result) {
+			return $result;
+		} else {
+			return $error;
 		}
 	}
 
@@ -620,23 +632,59 @@ class event {
     }
 }
 
+class event_template {
+	private $event_template_id;
+	private $user_id;
+	private $event_template_name;
+	private $event_options;
+
+	function __construct($event_template_id, $user_id, $event_template_name, $event_options) {
+		$this->event_template_id = mysql_real_escape_string($event_template_id);
+		$this->user_id = mysql_real_escape_string($user_id);
+		$this->event_template_name = mysql_real_escape_string($event_template_name);
+		$this->event_options = mysql_real_escape_string($event_options);
+	}
+
+	public function getEventTemplatesByUser() {
+		$result = mysql_query("SELECT * FROM event_templates WHERE user_id = '$this->user_id'");
+		if ($result) {
+			return $result;
+		} else {
+			return $error;
+		}
+	}
+
+    public function setEvent_template_id($x) {
+        $this->event_template_id = mysql_real_escape_string($x);
+    }
+
+	public function getEvent_template_id() {
+        return $this->event_template_id;
+    }
+    public function setUser_id($x) {
+        $this->user_id = mysql_real_escape_string($x);
+    }
+
+	public function getUser_id() {
+        return $this->user_id;
+    }
+    public function setEvent_template_name($x) {
+        $this->event_template_name = mysql_real_escape_string($x);
+    }
+
+	public function getEvent_template_name() {
+        return $this->event_template_name;
+    }
+    public function setEvent_options($x) {
+        $this->event_options = mysql_real_escape_string($x);
+    }
+
+	public function getEvent_options() {
+        return $this->event_options;
+    }	
+}
+
 class users {
-/*	user_id int(5),
-+	email varchar(80),
-+	userpass varchar(300),
-title?
-+	first_name varchar(30),
-+	last_name varchar(30),
-+	address1 varchar(50),
-+	address2 varchar(50),
-+	address3 varchar(50),
-+	town varchar(50),
-+	county varchar(50),
-+	postcode varchar(10),
-+	country varchar(50),
-+	phone varchar(30),
-mobile?
-+	disabled varchar(1)*/
 	private $user_id; //int(5),
 	private $email; //varchar(80),
 	private $userpass; //varchar(300),
@@ -687,6 +735,19 @@ mobile?
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	public function register() {
+
+	}
+
+	public function show_my_info() {
+		$result = mysql_query("SELECT * FROM users WHERE user_id = '$this->user_id'");
+		if ($result) {
+			return $result;
+		} else {
+			return $error;
 		}
 	}
 

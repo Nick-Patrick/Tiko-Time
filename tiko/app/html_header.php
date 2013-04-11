@@ -20,8 +20,8 @@
 	</header>
 	<section class="main-wrapper">
 		<ul class="options">
-			<li><a href="">My Account</a></li>
+			<li><a href="page.php?p=p_my_account">My Account</a></li>
+			<li><a href="page.php?p=p_message_hub">My Messages</a></li>
 			<li><a href="">Settings</a></li>
 			<li><a href="">Log Out</a></li>
 		</ul>
-

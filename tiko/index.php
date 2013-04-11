@@ -1,8 +1,6 @@
-<!DOCTYPE>
-<html>
-<head>
-</head>
-<body>
+<?php
+	require ("header.php");
+?>
 	<h1>THIS WILL BE THE SPLASH PAGE</h1>
 
 	<form action="includes/scripts/fn_login_script.php" method="POST">
@@ -12,5 +10,8 @@
 			<li><label for="log_in_submit"></label><input type="submit" name="log_in_submit" value="Log In"></li>
 		</ul>
 	</form>
-</body>
-</html>
+
+
+<?php
+	require ("footer.php");
+?>
